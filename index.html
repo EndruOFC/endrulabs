@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endru Labs</title>
+    <!-- Hier holen wir uns das moderne Design (Tailwind) von einem Server -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-950 text-white min-h-screen flex items-center justify-center px-4">
+
+    <div class="text-center max-w-2xl">
+        <!-- Das Logo / Der Name -->
+        <div class="mb-6">
+            <span class="text-6xl font-extrabold tracking-tighter bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">
+                Endru Labs
+            </span>
+        </div>
+
+        <!-- Der beschreibende Text -->
+        <p class="text-gray-400 text-lg md:text-xl leading-relaxed mb-10">
+            Wir bauen etwas Neues. Die digitale Werkstatt ist im Aufbau.<br>
+            Bleib dran.
+        </p>
+
+        <!-- Der animierte Button -->
+        <div class="inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white font-medium px-8 py-4 rounded-full transition-all duration-300 shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/20 hover:-translate-y-1">
+            <span class="relative flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+            </span>
+            Status: In Entwicklung
+        </div>
+    </div>
+
+</body>
+</html>
