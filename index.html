@@ -4,22 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Endru Labs – Events. Visuals. Energie.</title>
-   
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=DM+Sans:wght@300&display=swap" rel="stylesheet">
-    
+
     <style>
         body::-webkit-scrollbar { display: none; }
         body { -ms-overflow-style: none; scrollbar-width: none; }
-       
+        
         #hero-3d { position: relative; overflow: hidden; }
         #hero-3d canvas { display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
-        
+
         .vignette{position:absolute;inset:0;pointer-events:none;z-index:2;
-            background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,0.75) 100%)}
+            background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,0.8) 100%)}
         .grain{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0.04;mix-blend-mode:overlay;
             background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
         .corner{position:absolute;width:24px;height:24px;border-color:rgba(255,255,255,0.15);border-style:solid;z-index:4}
         .corner.tl{top:18px;left:18px;border-width:1px 0 0 1px}
         .corner.tr{top:18px;right:18px;border-width:1px 1px 0 0}
@@ -29,15 +30,15 @@
 
     <script type="importmap">
     {
-        "imports": {
-            "three": "https://unpkg.com/three@0.168.0/build/three.min.js",
-            "three/addons/": "https://unpkg.com/three@0.168.0/examples/jsm/"
+        "imports":{
+            "three":"https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"
         }
     }
     </script>
 </head>
 <body class="bg-gray-950 text-white font-sans antialiased">
-    <!-- Header unverändert -->
+
     <header class="fixed top-0 left-0 right-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-white/5">
         <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
             <a href="#" class="text-xl font-extrabold tracking-tighter bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
@@ -51,12 +52,11 @@
         </div>
     </header>
 
-    <!-- Hero mit 3D -->
     <section id="hero-3d" class="h-screen relative">
         <div class="vignette"></div>
         <div class="grain"></div>
         <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
-        
+
         <div class="relative z-10 flex items-center justify-center h-full px-6 pointer-events-none">
             <div class="text-center max-w-3xl pointer-events-auto">
                 <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 drop-shadow-2xl">
@@ -70,16 +70,119 @@
                         Projekte planen
                     </a>
                     <a href="https://wa.me/DEINENUMMER" target="_blank" class="flex items-center gap-2 text-gray-300 hover:text-white transition-colors border border-white/10 px-8 py-4 rounded-full hover:border-white/30 backdrop-blur-sm">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">...</svg>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.6 6.3A7.85 7.85 0 0 0 12 4a7.9 7.9 0 0 0-6.8 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.8 1h.01a7.9 7.9 0 0 0 5.59-13.6ZM12 18.5a6.55 6.55 0 0 1-3.34-.92l-.24-.14-2.49.65.66-2.43-.16-.25A6.56 6.56 0 1 1 12 18.5Zm3.6-4.9c-.2-.1-1.17-.58-1.35-.64-.18-.07-.31-.1-.44.1s-.5.63-.62.77c-.11.13-.23.14-.43.05a5.4 5.4 0 0 1-1.6-.99 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.09-.4.09-.09.2-.23.3-.34.1-.12.13-.2.2-.33.06-.13.03-.25-.02-.35l-.6-1.45c-.16-.38-.32-.33-.44-.33h-.37a.72.72 0 0 0-.52.24 2.17 2.17 0 0 0-.68 1.62 3.78 3.78 0 0 0 .79 2c.1.13 1.37 2.1 3.32 2.94.46.2.82.32 1.1.4.47.16.89.13 1.22.08.37-.05 1.16-.47 1.32-.93.16-.46.16-.85.11-.93-.05-.08-.18-.13-.38-.23Z"/></svg>
                         WhatsApp
                     </a>
+                </div>
+                <div class="mt-12 flex items-center justify-center gap-2 text-xs text-cyan-400/50 font-mono">
+                    <span class="w-2 h-2 bg-cyan-400 rounded-full animate-ping"></span>
+                    <span>Drag to orbit &bull; Scroll to zoom</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Rest der Seite (Services, About, Footer) unverändert -->
-    <!-- ... (kopiere den Rest aus deinem ursprünglichen Code) ... -->
+    <section id="services" class="max-w-6xl mx-auto px-6 py-24">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:h-[600px]">
+            
+            <div class="relative rounded-3xl overflow-hidden group border border-white/5 md:row-span-2">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=1000&auto=format&fit=crop" alt="3D Mapping" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-8">
+                    <span class="text-cyan-400 font-mono text-sm mb-2 block">01 / Visuals</span>
+                    <h3 class="text-2xl md:text-3xl font-bold mb-2">3D Mapping & Resolume</h3>
+                    <p class="text-gray-300 max-w-sm">Raumgreifende 3D-Projectionen und präzise Resolume-Steuerung. Deine Idee wird zum visuellen Erlebnis.</p>
+                </div>
+            </div>
+
+            <div class="relative rounded-3xl overflow-hidden group border border-white/5 bg-gray-900 flex flex-col justify-between p-8">
+                <span class="text-blue-400 font-mono text-sm">02 / Consulting</span>
+                <div>
+                    <h3 class="text-2xl font-bold mb-2">Event Consultant</h3>
+                    <p class="text-gray-400">Von der Idee bis zum Load-In. Technik und Logistik aus einer Hand.</p>
+                </div>
+            </div>
+
+            <div class="relative rounded-3xl overflow-hidden group border border-white/5 bg-gray-900 flex flex-col justify-between p-8">
+                <span class="text-purple-400 font-mono text-sm">03 / Audio</span>
+                <div>
+                    <h3 class="text-2xl font-bold mb-2">DJ</h3>
+                    <p class="text-gray-400">Soundtrack für jeden Moment – Warm-up bis Peak-Time.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-4 rounded-3xl border border-white/5 bg-gradient-to-r from-gray-900 via-gray-900 to-emerald-950/30 p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div>
+                <span class="text-emerald-400 font-mono text-sm mb-2 block">04 / Lifestyle & Performance</span>
+                <h3 class="text-2xl md:text-3xl font-bold mb-2">Keto Expert</h3>
+                <p class="text-gray-400 max-w-xl">Klarer Kopf unter Druck. Keto als Fuel für Performer und Macher – fokussiert bleiben, auch im Stress.</p>
+            </div>
+            <a href="#kontakt" class="text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/10 px-6 py-3 rounded-full transition-colors whitespace-nowrap font-medium">
+                Mehr erfahren
+            </a>
+        </div>
+    </section>
+
+    <section id="about" class="max-w-4xl mx-auto px-6 pb-32 text-center">
+        <div class="w-12 h-px bg-white/20 mx-auto mb-12"></div>
+        <h2 class="text-3xl md:text-4xl font-bold leading-snug text-gray-200">
+            Statt fünf verschiedene Spezialisten zu koordinieren, hast du einen Partner, der Technik, Flow und mentale Performance versteht.
+        </h2>
+    </section>
+
+    <footer id="kontakt" class="border-t border-white/5 bg-gray-900/50">
+        <div class="max-w-6xl mx-auto px-6 py-20">
+            <div class="grid md:grid-cols-2 gap-16">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Projekt anfragen</h3>
+                    <form class="space-y-4" action="#" method="POST">
+                        <input type="text" placeholder="Name" required class="w-full bg-gray-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors">
+                        <input type="email" placeholder="E-Mail" required class="w-full bg-gray-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors">
+                        <textarea rows="4" placeholder="Deine Projekt-Idee..." required class="w-full bg-gray-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors resize-none"></textarea>
+                        <select class="w-full bg-gray-800 border border-white/10 rounded-xl px-4 py-3 text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors">
+                            <option value="" disabled selected>Budget-Range (optional)</option>
+                            <option value="1">< 2'000 CHF</option>
+                            <option value="2">2'000 - 5'000 CHF</option>
+                            <option value="3">> 5'000 CHF</option>
+                        </select>
+                        <button type="submit" class="w-full bg-white text-gray-950 font-semibold py-4 rounded-xl hover:bg-gray-200 transition-colors">
+                            Anfrage senden
+                        </button>
+                    </form>
+                </div>
+
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <p class="text-gray-400 text-lg leading-relaxed mb-8">Du hast eine konkrete Idee oder brauchst erstmal einen Denk-Anstoss? Lass uns einfach reden.</p>
+                        <div class="space-y-4">
+                            <a href="mailto:info@endrulabs.ch" class="flex items-center gap-3 text-gray-300 hover:text-white transition-colors">
+                                <span class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center">✉️</span>
+                                info@endrulabs.ch
+                            </a>
+                            <a href="https://wa.me/DEINENUMMER" target="_blank" class="flex items-center gap-3 text-gray-300 hover:text-white transition-colors">
+                                <span class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center">💬</span>
+                                WhatsApp
+                            </a>
+                            <a href="#" class="flex items-center gap-3 text-gray-300 hover:text-white transition-colors">
+                                <span class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center">📅</span>
+                                15 Min. Discovery Call
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between text-xs text-gray-600 gap-4">
+                        <p>&copy; 2024 Endru Labs</p>
+                        <div class="flex gap-4">
+                            <a href="#" class="hover:text-gray-400">Impressum</a>
+                            <a href="#" class="hover:text-gray-400">Datenschutz</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script type="module">
         import * as THREE from 'three';
@@ -90,73 +193,160 @@
         import { Reflector } from 'three/addons/objects/Reflector.js';
 
         const heroContainer = document.getElementById('hero-3d');
-        if (!heroContainer) return;
 
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x030306);
         scene.fog = new THREE.FogExp2(0x030306, 0.055);
 
-        const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 100);
+        const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.1, 100);
         camera.position.set(3.6, 2.9, 4.8);
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(innerWidth, innerHeight);
+        renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1.05;
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        
         heroContainer.prepend(renderer.domElement);
 
+        const reducedMotion = matchMedia('(prefers-reduced-motion:reduce)').matches;
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
-        controls.dampingFactor = 0.06;
+        controls.dampingFactor = 0.04;
         controls.target.set(0, 1.1, 0);
-        controls.minDistance = 2.8;
-        controls.maxDistance = 13;
+        controls.minDistance = 2.5;
+        controls.maxDistance = 12;
         controls.maxPolarAngle = Math.PI * 0.82;
-        controls.autoRotate = true;
-        controls.autoRotateSpeed = 0.18;
+        controls.autoRotate = !reducedMotion;
+        controls.autoRotateSpeed = 0.22;
+        controls.update();
 
-        // Composer + Bloom
         const composer = new EffectComposer(renderer);
         composer.addPass(new RenderPass(scene, camera));
-        const bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.4, 0.6, 0.6);
+        const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 1.35, 0.55, 0.62);
         composer.addPass(bloom);
 
-        // === 3D-Objekte (deine Szene) ===
-        // Floor + Reflector
         const floorGeo = new THREE.PlaneGeometry(40, 40);
-        const floor = new Reflector(floorGeo, {
-            clipBias: 0.003,
-            textureWidth: window.innerWidth * window.devicePixelRatio * 0.5,
-            textureHeight: window.innerHeight * window.devicePixelRatio * 0.5,
-            color: 0x0a0a12
-        });
+        const floor = new Reflector(floorGeo, { clipBias: 0.003, textureWidth: Math.floor(innerWidth * devicePixelRatio * 0.5), textureHeight: Math.floor(innerHeight * devicePixelRatio * 0.5), color: 0x0a0a12 });
         floor.rotation.x = -Math.PI / 2;
         scene.add(floor);
 
-        // ... (der gesamte Rest deiner Objekte – hexBase, frameGroup, holoCube, lights, particles etc. bleibt gleich) ...
+        const floorTint = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshStandardMaterial({ color: 0x080810, roughness: 0.12, metalness: 0.85, transparent: true, opacity: 0.5 }));
+        floorTint.rotation.x = -Math.PI / 2;
+        floorTint.position.y = 0.002;
+        scene.add(floorTint);
 
-        // Animation Loop
+        const HR = 0.85, HH = 0.35;
+        const hexBase = new THREE.Mesh(new THREE.CylinderGeometry(HR, HR * 1.06, HH, 6), new THREE.MeshStandardMaterial({ color: 0x080808, roughness: 0.92, metalness: 0.08 }));
+        hexBase.position.y = HH / 2; hexBase.castShadow = true; hexBase.receiveShadow = true; scene.add(hexBase);
+
+        const hexRing = new THREE.Mesh(new THREE.RingGeometry(HR * 0.52, HR * 0.58, 6), new THREE.MeshBasicMaterial({ color: 0x00ddff, transparent: true, opacity: 0.3, side: THREE.DoubleSide }));
+        hexRing.rotation.x = -Math.PI / 2; hexRing.position.y = HH + 0.002; scene.add(hexRing);
+
+        const topGlow = new THREE.Mesh(new THREE.CircleGeometry(HR * 0.48, 6), new THREE.MeshBasicMaterial({ color: 0x00bbff, transparent: true, opacity: 0.06, side: THREE.DoubleSide }));
+        topGlow.rotation.x = -Math.PI / 2; topGlow.position.y = HH + 0.001; scene.add(topGlow);
+
+        const FW = 0.95, FH = 1.05, FD = 0.95, frameBaseY = HH + 0.14;
+        const frameGroup = new THREE.Group(); frameGroup.position.y = frameBaseY; scene.add(frameGroup);
+
+        frameGroup.add((() => { const m = new THREE.Mesh(new THREE.BoxGeometry(FW, FH, FD), new THREE.MeshPhysicalMaterial({ color: 0xffffff, transparent: true, opacity: 0.05, roughness: 0.02, metalness: 0.0, transmission: 0.96, thickness: 0.3, ior: 1.45, clearcoat: 1.0, clearcoatRoughness: 0.05, side: THREE.DoubleSide, depthWrite: false })); m.position.y = FH / 2; return m; })());
+
+        function tube(a, b, color, r = 0.013) {
+            const dir = new THREE.Vector3().subVectors(b, a); const len = Math.max(0.001, dir.length());
+            const mesh = new THREE.Mesh(new THREE.CylinderGeometry(r, r, len, 8, 1), new THREE.MeshBasicMaterial({ color }));
+            mesh.position.copy(a).add(b).multiplyScalar(0.5);
+            const up = new THREE.Vector3(0, 1, 0); const d = dir.clone().normalize();
+            Math.abs(d.dot(up)) < 0.9999 ? mesh.quaternion.setFromUnitVectors(up, d) : d.y < 0 ? mesh.rotation.z = Math.PI : 0;
+            return mesh;
+        }
+
+        const hw = FW / 2, hd = FD / 2, CYN = 0x00e5ff, VIO = 0x9933ff, MIX = 0x5577ff;
+        
+        // HIER WAR DER FEHLER - Jetzt ist es korrekt:
+        const btm = [
+            [[-hw,0,-hd],[hw,0,-hd]], [[hw,0,-hd],[hw,0,hd]],
+            [[hw,0,hd],[-hw,0,hd]], [[-hw,0,hd],[-hw,0,-hd]]
+        ];
+        const top = [
+            [[-hw,FH,-hd],[hw,FH,-hd]], [[hw,FH,-hd],[hw,FH,hd]],
+            [[hw,FH,hd],[-hw,FH,hd]], [[-hw,FH,hd],[-hw,FH,-hd]]
+        ];
+        const vert = [
+            [[-hw,0,-hd],[-hw,FH,-hd]], [[hw,0,-hd],[hw,FH,-hd]],
+            [[hw,0,hd],[hw,FH,hd]], [[-hw,0,hd],[-hw,FH,hd]]
+        ];
+        
+        btm.forEach(e => frameGroup.add(tube(new THREE.Vector3(...e[0]), new THREE.Vector3(...e[1]), CYN)));
+        top.forEach(e => frameGroup.add(tube(new THREE.Vector3(...e[0]), new THREE.Vector3(...e[1]), VIO)));
+        vert.forEach(e => frameGroup.add(tube(new THREE.Vector3(...e[0]), new THREE.Vector3(...e[1]), MIX)));
+
+        const CS = 0.33;
+        const holoMat = new THREE.ShaderMaterial({
+            uniforms: { uTime: { value: 0 } },
+            vertexShader: `varying vec3 vN, vP, vW; void main(){ vN = normalize(normalMatrix * normal); vP = position; vW = (modelMatrix * vec4(position,1.0)).xyz; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
+            fragmentShader: `uniform float uTime; varying vec3 vN, vP, vW; void main(){ vec3 V = normalize(cameraPosition - vW); float fres = pow(1.0 - abs(dot(V, vN)), 3.0); float s1 = sin(vP.y * 35.0 - uTime * 3.0) * .5 + .5; float s2 = sin(vP.y * 90.0 + uTime * 1.8) * .5 + .5; float scan = smoothstep(.3,.7,s1)*.22 + smoothstep(.4,.6,s2)*.08; float hue = fract(fres * .7 + uTime * .12 + vP.y * .45); vec3 prism = .5 + .5 * cos(6.28318*(hue + vec3(0.,.33,.67))); float bl = sin(uTime*.4 + vP.y*2.5)*.5+.5; vec3 base = mix(vec3(0.,.9,1.), vec3(.6,.2,1.), bl); vec3 col = mix(base, prism, .45); col += scan * vec3(.2,.7,1.); col += fres * base * 3.8; float a = .12 + fres * .72 + scan * .15; gl_FragColor = vec4(col, a); }`,
+            transparent: true, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending
+        });
+        const holoCube = new THREE.Mesh(new THREE.BoxGeometry(CS, CS, CS, 2, 2, 2), holoMat);
+        holoCube.position.y = FH / 2; frameGroup.add(holoCube);
+
+        const wireInner = new THREE.Mesh(new THREE.BoxGeometry(CS * .72, CS * .72, CS * .72), new THREE.MeshBasicMaterial({ color: 0x00ccff, wireframe: true, transparent: true, opacity: .18 }));
+        holoCube.add(wireInner);
+        const wireInner2 = new THREE.Mesh(new THREE.BoxGeometry(CS * .5, CS * .5, CS * .5), new THREE.MeshBasicMaterial({ color: 0xaa44ff, wireframe: true, transparent: true, opacity: .12 }));
+        holoCube.add(wireInner2);
+
+        const beam = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.14, FH + 0.25, 16, 1, true), new THREE.MeshBasicMaterial({ color: 0x00ccff, transparent: true, opacity: 0.03, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending }));
+        beam.position.y = HH + (FH + 0.25) / 2; scene.add(beam);
+
+        const causticMat = new THREE.ShaderMaterial({
+            uniforms: { uTime: { value: 0 } },
+            vertexShader: `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+            fragmentShader: `uniform float uTime; varying vec2 vUv; void main(){ vec2 uv = vUv - .5; float d = length(uv); float r1 = sin(d*18.-uTime*1.6)*.5+.5; float r2 = sin(d*30.+uTime*2.2)*.5+.5; float ring = (r1*.7+r2*.3)*smoothstep(.5,.12,d); float a = atan(uv.y,uv.x); vec3 c1=vec3(0.,.9,1.), c2=vec3(.6,.15,1.), c3=vec3(1.,.12,.4); vec3 col = mix(c1,c2,sin(a*3.+uTime)*.5+.5); col = mix(col,c3,sin(a*5.-uTime*1.3)*.5+.5); float alpha = ring * .22 * smoothstep(.5,.03,d); gl_FragColor = vec4(col*1.6, alpha); }`,
+            transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide
+        });
+        const caustic = new THREE.Mesh(new THREE.PlaneGeometry(2.8, 2.8), causticMat);
+        caustic.rotation.x = -Math.PI / 2; caustic.position.y = 0.004; scene.add(caustic);
+
+        const wallMat = new THREE.MeshStandardMaterial({ color: 0x070709, roughness: 0.95, metalness: 0.05 });
+        [[24,9,.3,0,4.5,-10],[.3,9,24,-12,4.5,0],[.3,9,24,12,4.5,0]].forEach(([w,h,d,x,y,z])=>{ const m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), wallMat); m.position.set(x,y,z); m.receiveShadow = true; scene.add(m); });
+
+        [[-3.2,-5.5,0x4400ff],[3.8,-6.5,0x0066ff],[-5.0,-3.5,0x8800cc],[5.5,-4.0,0x0044aa]].forEach(([x,z,c])=>{ const p = new THREE.Mesh(new THREE.BoxGeometry(.45,1.0,.45), new THREE.MeshStandardMaterial({ color: 0x0a0a0c, roughness: .88, metalness: .1 })); p.position.set(x,.5,z); p.castShadow=true; scene.add(p); const l = new THREE.PointLight(c, .35, 3.5); l.position.set(x,1.35,z); scene.add(l); });
+
+        const PC = 280; const pPos = new Float32Array(PC*3), pSz = new Float32Array(PC), pCol = new Float32Array(PC*3);
+        for(let i=0;i<PC;i++){ const near = Math.random()<.6, ang = Math.random()*Math.PI*2; const rad = near ? Math.random()*2+.4 : Math.random()*8+2; pPos[i*3]=Math.cos(ang)*rad; pPos[i*3+1]=Math.random()*5+.3; pPos[i*3+2]=Math.sin(ang)*rad; pSz[i]=Math.random()*2.5+.5; const t=Math.random(); pCol[i*3]=t*.6; pCol[i*3+1]=(1-t)*.9; pCol[i*3+2]=1; }
+        const pGeo = new THREE.BufferGeometry(); pGeo.setAttribute('position', new THREE.BufferAttribute(pPos,3)); pGeo.setAttribute('aSize', new THREE.BufferAttribute(pSz,1)); pGeo.setAttribute('aColor', new THREE.BufferAttribute(pCol,3));
+        const pMat = new THREE.ShaderMaterial({
+            uniforms: { uTime:{value:0}, uPR:{value:Math.min(devicePixelRatio,2)} },
+            vertexShader:`attribute float aSize; attribute vec3 aColor; varying vec3 vC; uniform float uTime,uPR; void main(){ vC=aColor; vec3 p=position; p.y+=sin(uTime*.4+position.x*1.8)*.08; p.x+=cos(uTime*.25+position.z*1.3)*.04; vec4 mv=modelViewMatrix*vec4(p,1.); gl_PointSize=aSize*uPR*(80./-mv.z); gl_Position=projectionMatrix*mv; }`,
+            fragmentShader:`varying vec3 vC; void main(){ float d=length(gl_PointCoord-.5); if(d>.5)discard; gl_FragColor=vec4(vC, smoothstep(.5,.04,d)*.32); }`,
+            transparent:true, depthWrite:false, blending:THREE.AdditiveBlending
+        });
+        scene.add(new THREE.Points(pGeo, pMat));
+
+        scene.add(new THREE.AmbientLight(0x0a0a1a, 0.35));
+        const spot = new THREE.SpotLight(0xddddef, 3); spot.position.set(0, 7, 2); spot.angle = Math.PI / 7; spot.penumbra = 0.85; spot.decay = 2; spot.distance = 15; spot.castShadow = true; spot.shadow.mapSize.set(1024, 1024); spot.target.position.set(0, .5, 0); scene.add(spot); scene.add(spot.target);
+        const cyanPL = new THREE.PointLight(0x00e5ff, 2.5, 4.5); cyanPL.position.set(0, frameBaseY + FH * .3, 0); scene.add(cyanPL);
+        const vioPL = new THREE.PointLight(0x9933ff, 2.0, 4.5); vioPL.position.set(0, frameBaseY + FH * .7, 0); scene.add(vioPL);
+        scene.add(new THREE.PointLight(0x3300cc, .8, 10).translateX(-3).translateY(3).translateZ(-4));
+
         const clock = new THREE.Clock();
-        function animate() {
+        (function animate(){
             requestAnimationFrame(animate);
             const t = clock.getElapsedTime();
-            
-            // Deine bestehenden Animationen hier einfügen...
+            frameGroup.position.y = frameBaseY + Math.sin(t * 1.2) * 0.025;
+            holoCube.rotation.y = t * 0.45; holoCube.rotation.x = Math.sin(t * 0.28) * 0.18; holoCube.rotation.z = Math.cos(t * 0.35) * 0.1;
+            wireInner.rotation.y = -t * 0.7; wireInner.rotation.x = t * 0.3; wireInner2.rotation.y = t * 1.1; wireInner2.rotation.z = -t * 0.5;
+            holoMat.uniforms.uTime.value = t; causticMat.uniforms.uTime.value = t; pMat.uniforms.uTime.value = t;
+            hexRing.material.opacity = .22 + Math.sin(t * 2) * .1; topGlow.material.opacity = .04 + Math.sin(t * 1.8) * .02;
+            cyanPL.intensity = 2.5 + Math.sin(t * 1.8) * .6; vioPL.intensity = 2.0 + Math.cos(t * 2.2) * .5; beam.material.opacity = .025 + Math.sin(t * 1.5) * .012;
             controls.update();
             composer.render();
-        }
-        animate();
+        })();
 
-        // Resize Handler
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            composer.setSize(window.innerWidth, window.innerHeight);
-        });
+        addEventListener('resize', ()=>{ camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); composer.setSize(innerWidth, innerHeight); });
     </script>
 </body>
 </html>
