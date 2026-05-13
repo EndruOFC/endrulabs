@@ -1,37 +1,162 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Endru Labs</title>
-    <!-- Hier holen wir uns das moderne Design (Tailwind) von einem Server -->
+    <title>Endru Labs – Events. Visuals. Energie.</title>
+   
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=DM+Sans:wght@300&display=swap" rel="stylesheet">
+    
+    <style>
+        body::-webkit-scrollbar { display: none; }
+        body { -ms-overflow-style: none; scrollbar-width: none; }
+       
+        #hero-3d { position: relative; overflow: hidden; }
+        #hero-3d canvas { display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        
+        .vignette{position:absolute;inset:0;pointer-events:none;z-index:2;
+            background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,0.75) 100%)}
+        .grain{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0.04;mix-blend-mode:overlay;
+            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+        .corner{position:absolute;width:24px;height:24px;border-color:rgba(255,255,255,0.15);border-style:solid;z-index:4}
+        .corner.tl{top:18px;left:18px;border-width:1px 0 0 1px}
+        .corner.tr{top:18px;right:18px;border-width:1px 1px 0 0}
+        .corner.bl{bottom:18px;left:18px;border-width:0 0 1px 1px}
+        .corner.br{bottom:18px;right:18px;border-width:0 1px 1px 0}
+    </style>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.168.0/build/three.min.js",
+            "three/addons/": "https://unpkg.com/three@0.168.0/examples/jsm/"
+        }
+    }
+    </script>
 </head>
-<body class="bg-gray-950 text-white min-h-screen flex items-center justify-center px-4">
-
-    <div class="text-center max-w-2xl">
-        <!-- Das Logo / Der Name -->
-        <div class="mb-6">
-            <span class="text-6xl font-extrabold tracking-tighter bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">
-                Endru Labs
-            </span>
+<body class="bg-gray-950 text-white font-sans antialiased">
+    <!-- Header unverändert -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" class="text-xl font-extrabold tracking-tighter bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                ENDRU LABS
+            </a>
+            <nav class="hidden md:flex items-center gap-8 text-sm text-gray-400">
+                <a href="#services" class="hover:text-white transition-colors">Services</a>
+                <a href="#about" class="hover:text-white transition-colors">About</a>
+                <a href="#kontakt" class="hover:text-white transition-colors">Kontakt</a>
+            </nav>
         </div>
+    </header>
 
-        <!-- Der beschreibende Text -->
-        <p class="text-gray-400 text-lg md:text-xl leading-relaxed mb-10">
-            Wir bauen etwas Neues. Die digitale Werkstatt ist im Aufbau.<br>
-            Bleib dran.
-        </p>
-
-        <!-- Der animierte Button -->
-        <div class="inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white font-medium px-8 py-4 rounded-full transition-all duration-300 shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/20 hover:-translate-y-1">
-            <span class="relative flex h-3 w-3">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-            </span>
-            Status: In Entwicklung
+    <!-- Hero mit 3D -->
+    <section id="hero-3d" class="h-screen relative">
+        <div class="vignette"></div>
+        <div class="grain"></div>
+        <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+        
+        <div class="relative z-10 flex items-center justify-center h-full px-6 pointer-events-none">
+            <div class="text-center max-w-3xl pointer-events-auto">
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 drop-shadow-2xl">
+                    Events. Visuals. Energie.
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 leading-relaxed mb-10 max-w-2xl mx-auto drop-shadow-lg">
+                    Dein Schweizer Taschenmesser für unvergessliche Erlebnisse – von 3D-Projection bis perfektem Set.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#kontakt" class="bg-white text-gray-950 font-semibold px-8 py-4 rounded-full hover:bg-gray-200 transition-colors shadow-lg">
+                        Projekte planen
+                    </a>
+                    <a href="https://wa.me/DEINENUMMER" target="_blank" class="flex items-center gap-2 text-gray-300 hover:text-white transition-colors border border-white/10 px-8 py-4 rounded-full hover:border-white/30 backdrop-blur-sm">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">...</svg>
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
+    <!-- Rest der Seite (Services, About, Footer) unverändert -->
+    <!-- ... (kopiere den Rest aus deinem ursprünglichen Code) ... -->
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+        import { Reflector } from 'three/addons/objects/Reflector.js';
+
+        const heroContainer = document.getElementById('hero-3d');
+        if (!heroContainer) return;
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x030306);
+        scene.fog = new THREE.FogExp2(0x030306, 0.055);
+
+        const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(3.6, 2.9, 4.8);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.05;
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        heroContainer.prepend(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.06;
+        controls.target.set(0, 1.1, 0);
+        controls.minDistance = 2.8;
+        controls.maxDistance = 13;
+        controls.maxPolarAngle = Math.PI * 0.82;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.18;
+
+        // Composer + Bloom
+        const composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+        const bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.4, 0.6, 0.6);
+        composer.addPass(bloom);
+
+        // === 3D-Objekte (deine Szene) ===
+        // Floor + Reflector
+        const floorGeo = new THREE.PlaneGeometry(40, 40);
+        const floor = new Reflector(floorGeo, {
+            clipBias: 0.003,
+            textureWidth: window.innerWidth * window.devicePixelRatio * 0.5,
+            textureHeight: window.innerHeight * window.devicePixelRatio * 0.5,
+            color: 0x0a0a12
+        });
+        floor.rotation.x = -Math.PI / 2;
+        scene.add(floor);
+
+        // ... (der gesamte Rest deiner Objekte – hexBase, frameGroup, holoCube, lights, particles etc. bleibt gleich) ...
+
+        // Animation Loop
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const t = clock.getElapsedTime();
+            
+            // Deine bestehenden Animationen hier einfügen...
+            controls.update();
+            composer.render();
+        }
+        animate();
+
+        // Resize Handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
 </body>
 </html>
