@@ -1,391 +1,930 @@
 <!DOCTYPE html>
-<html lang="de" class="scroll-smooth">
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Endru Labs – Events. Visuals. Energie.</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Tailwind Konfiguration für eigene Fonts und Farben -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'display': ['"Cormorant Garamond"', 'serif'],
-                        'body': ['"DM Sans"', 'sans-serif'],
-                    },
-                    colors: {
-                        'midnight': '#020b1c', // Dein neues, leicht blaues Schwarz
-                    }
-                }
-            }
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Endru Labs – Creative Technology Studio Zürich. Immersive Visual Systems, Event Engineering & Visual Consulting für Events, Räume und Marken.">
+  <meta property="og:title" content="Endru Labs | Creative Technology Studio">
+  <meta property="og:description" content="Immersive Visuals. Real Engineering. Creative Technology Studio aus Zürich.">
+  <meta property="og:image" content="https://endrulabs.ch/og-image.jpg">
+  <meta property="og:url" content="https://endrulabs.ch">
+  <meta property="og:type" content="website">
+  <title>Endru Labs | Creative Technology Studio</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <style>
-        body::-webkit-scrollbar { display: none; }
-        body { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        #hero-3d { position: relative; overflow: hidden; }
-        #hero-3d canvas { display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
-
-        .vignette{position:absolute;inset:0;pointer-events:none;z-index:2;
-            background:radial-gradient(ellipse at center,transparent 35%,rgba(2,11,28,0.85) 100%)}
-        .grain{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0.04;mix-blend-mode:overlay;
-            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-
-        .corner{position:absolute;width:24px;height:24px;border-color:rgba(255,255,255,0.15);border-style:solid;z-index:4}
-        .corner.tl{top:18px;left:18px;border-width:1px 0 0 1px}
-        .corner.tr{top:18px;right:18px;border-width:1px 1px 0 0}
-        .corner.bl{bottom:18px;left:18px;border-width:0 0 1px 1px}
-        .corner.br{bottom:18px;right:18px;border-width:0 1px 1px 0}
-    </style>
-
-    <script type="importmap">
-    {
-        "imports":{
-            "three":"https://unpkg.com/three@0.160.0/build/three.module.js",
-            "three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"
-        }
+    :root {
+      --black: #080808;
+      --zinc-950: #0d0d0f;
+      --zinc-900: #141417;
+      --zinc-800: #1c1c21;
+      --zinc-700: #2a2a31;
+      --zinc-400: #8b8b99;
+      --zinc-300: #b0b0be;
+      --cyan: #00e5ff;
+      --cyan-dim: rgba(0,229,255,0.12);
+      --white: #f4f4f6;
+      --radius: 1.5rem;
     }
-    </script>
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Syne', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::-webkit-scrollbar { width: 4px; }
+    body::-webkit-scrollbar-track { background: var(--black); }
+    body::-webkit-scrollbar-thumb { background: var(--zinc-700); border-radius: 2px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(8,8,8,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-inner {
+      max-width: 1280px; margin: 0 auto; padding: 0 2rem;
+      height: 68px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 1rem; font-weight: 700; letter-spacing: 0.15em;
+      color: var(--white); text-decoration: none;
+    }
+    .nav-logo span { color: var(--cyan); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--zinc-400); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+
+    .lang-toggle {
+      display: flex; border: 1px solid rgba(255,255,255,0.15); border-radius: 2rem;
+      overflow: hidden; font-family: 'Space Mono', monospace; font-size: 0.7rem;
+    }
+    .lang-toggle button {
+      padding: 0.35rem 0.85rem; background: transparent; border: none;
+      color: var(--zinc-400); cursor: pointer; transition: all 0.2s; letter-spacing: 0.05em;
+    }
+    .lang-toggle button.active { background: var(--white); color: var(--black); }
+
+    .hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      color: var(--white); font-size: 1.3rem; padding: 0.25rem;
+    }
+
+    .mobile-menu {
+      display: none; flex-direction: column; gap: 0;
+      background: var(--zinc-950); border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      padding: 1rem 2rem; color: var(--zinc-300); text-decoration: none;
+      font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: color 0.2s, background 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--cyan); background: var(--cyan-dim); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100svh; display: flex; align-items: center;
+      padding-top: 68px; background: #020b1c;
+      position: relative; overflow: hidden;
+    }
+    #hero-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+    .hero-vignette {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(2,11,28,0.82) 100%);
+    }
+    .hero-inner {
+      max-width: 900px; margin: 0 auto; padding: 4rem 2rem;
+      text-align: center; position: relative; z-index: 1;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Space Mono', monospace; font-size: 0.7rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 2rem;
+      border: 1px solid rgba(0,229,255,0.25); border-radius: 2rem;
+      padding: 0.4rem 1rem;
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--cyan); animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+
+    .hero h1 {
+      font-size: clamp(3rem, 9vw, 7rem);
+      font-weight: 800; line-height: 0.95;
+      letter-spacing: -0.03em; margin-bottom: 1.5rem;
+    }
+    .hero h1 em { font-style: normal; color: var(--cyan); }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--zinc-400); max-width: 520px; margin: 0 auto 2.5rem;
+      line-height: 1.6; font-weight: 400;
+    }
+    .hero-cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-block; background: var(--white); color: var(--black);
+      padding: 0.9rem 2.2rem; border-radius: 3rem;
+      font-weight: 700; font-size: 0.85rem; letter-spacing: 0.05em;
+      text-decoration: none; transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--cyan); transform: translateY(-1px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      border: 1px solid rgba(255,255,255,0.2); color: var(--zinc-300);
+      padding: 0.9rem 2.2rem; border-radius: 3rem;
+      font-size: 0.85rem; letter-spacing: 0.05em;
+      text-decoration: none; transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 7rem 2rem; }
+    .section-inner { max-width: 1280px; margin: 0 auto; }
+    .section-label {
+      font-family: 'Space Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.25em; text-transform: uppercase; color: var(--cyan);
+      margin-bottom: 1rem; display: block;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;
+      line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 3.5rem;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--black); border-top: 1px solid rgba(255,255,255,0.06); }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius); overflow: hidden; }
+    .service-card {
+      background: var(--zinc-950); padding: 2.5rem;
+      transition: background 0.3s;
+    }
+    .service-card:hover { background: var(--zinc-900); }
+    .service-num {
+      font-family: 'Space Mono', monospace; font-size: 0.65rem;
+      color: var(--cyan); letter-spacing: 0.1em; margin-bottom: 1.5rem; display: block;
+    }
+    .service-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .service-card p { color: var(--zinc-400); font-size: 0.9rem; line-height: 1.65; font-weight: 400; }
+
+    /* ── WORKS ── */
+    #works { background: var(--zinc-950); border-top: 1px solid rgba(255,255,255,0.06); }
+
+    .project-block { margin-bottom: 4rem; }
+    .project-header {
+      display: flex; align-items: baseline; gap: 1.5rem;
+      margin-bottom: 1rem; padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .project-name { font-size: 1.1rem; font-weight: 700; }
+    .project-meta { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--zinc-400); letter-spacing: 0.1em; }
+    .project-tags { margin-left: auto; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .project-tag {
+      font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em;
+      color: var(--cyan); border: 1px solid rgba(0,229,255,0.2);
+      padding: 0.2rem 0.6rem; border-radius: 2rem;
+    }
+
+    /* Grid layouts per project */
+    .works-grid {
+      display: grid; gap: 0.75rem;
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .work-card {
+      position: relative; border-radius: 1rem; overflow: hidden;
+      background: var(--zinc-900); cursor: pointer;
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s;
+    }
+    .work-card.visible { opacity: 1; transform: translateY(0); }
+    .work-card:hover { box-shadow: 0 0 0 2px var(--cyan); }
+    .work-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.55s ease; display: block;
+    }
+    .work-card:hover img { transform: scale(1.06); }
+    .work-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, transparent 52%);
+      opacity: 0; transition: opacity 0.35s ease;
+      display: flex; align-items: flex-end; padding: 1.25rem 1.5rem;
+    }
+    .work-card:hover .work-overlay { opacity: 1; }
+    .work-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--cyan); letter-spacing: 0.1em; margin-bottom: 0.25rem; }
+    .work-title { font-size: 0.95rem; font-weight: 700; line-height: 1.2; }
+
+    /* Rhema Underground grid – 8 cards */
+    .grid-rhema .work-card:nth-child(1)  { grid-column: span 5; aspect-ratio: 4/3; }
+    .grid-rhema .work-card:nth-child(2)  { grid-column: span 4; aspect-ratio: 4/3; }
+    .grid-rhema .work-card:nth-child(3)  { grid-column: span 3; aspect-ratio: 3/4; }
+    .grid-rhema .work-card:nth-child(4)  { grid-column: span 3; aspect-ratio: 3/4; }
+    .grid-rhema .work-card:nth-child(5)  { grid-column: span 4; aspect-ratio: 4/3; }
+    .grid-rhema .work-card:nth-child(6)  { grid-column: span 5; aspect-ratio: 16/9; }
+    .grid-rhema .work-card:nth-child(7)  { grid-column: span 6; aspect-ratio: 4/3; }
+    .grid-rhema .work-card:nth-child(8)  { grid-column: span 6; aspect-ratio: 4/3; }
+
+    /* Rheinklang Festival grid – 5 cards */
+    .grid-rheinklang .work-card:nth-child(1) { grid-column: span 7; aspect-ratio: 16/9; }
+    .grid-rheinklang .work-card:nth-child(2) { grid-column: span 5; aspect-ratio: 4/3; }
+    .grid-rheinklang .work-card:nth-child(3) { grid-column: span 4; aspect-ratio: 4/3; }
+    .grid-rheinklang .work-card:nth-child(4) { grid-column: span 4; aspect-ratio: 4/3; }
+    .grid-rheinklang .work-card:nth-child(5) { grid-column: span 4; aspect-ratio: 4/3; }
+
+    /* Other works – 3 cards */
+    .grid-other .work-card:nth-child(1) { grid-column: span 4; aspect-ratio: 4/3; }
+    .grid-other .work-card:nth-child(2) { grid-column: span 4; aspect-ratio: 4/3; }
+    .grid-other .work-card:nth-child(3) { grid-column: span 4; aspect-ratio: 4/3; }
+
+    /* ── ABOUT ── */
+    #about { background: var(--black); border-top: 1px solid rgba(255,255,255,0.06); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .about-text { font-size: 1.05rem; color: var(--zinc-300); line-height: 1.8; font-weight: 400; }
+    .about-text p + p { margin-top: 1.25rem; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius); overflow: hidden; }
+    .stat-item { background: var(--zinc-950); padding: 2rem; }
+    .stat-num { font-size: 2.5rem; font-weight: 800; color: var(--white); line-height: 1; margin-bottom: 0.4rem; }
+    .stat-num span { color: var(--cyan); }
+    .stat-label { font-size: 0.8rem; color: var(--zinc-400); font-weight: 400; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--zinc-950); border-top: 1px solid rgba(255,255,255,0.06); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; align-items: start; }
+    .contact-info h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.25rem; }
+    .contact-info p { color: var(--zinc-400); font-size: 0.95rem; line-height: 1.7; margin-bottom: 2rem; font-weight: 400; }
+    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.75rem;
+      color: var(--zinc-300); text-decoration: none; font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .contact-link:hover { color: var(--cyan); }
+    .contact-link-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--zinc-800); display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0;
+    }
+
+    form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-field {
+      width: 100%; background: var(--zinc-900); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 0.75rem; padding: 1rem 1.25rem;
+      color: var(--white); font-family: 'Syne', sans-serif; font-size: 0.9rem;
+      outline: none; transition: border-color 0.2s; resize: vertical;
+    }
+    .form-field::placeholder { color: var(--zinc-400); }
+    .form-field:focus { border-color: rgba(0,229,255,0.4); }
+    .btn-submit {
+      background: var(--white); color: var(--black);
+      border: none; border-radius: 0.75rem; padding: 1.1rem;
+      font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.04em; cursor: pointer; transition: background 0.2s, transform 0.15s;
+    }
+    .btn-submit:hover { background: var(--cyan); transform: translateY(-1px); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .success-msg {
+      display: none; margin-top: 1rem; padding: 1.25rem 1.5rem;
+      background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.3);
+      border-radius: 0.75rem; color: var(--cyan); font-size: 0.9rem; text-align: center;
+      line-height: 1.6;
+    }
+    .success-msg.visible { display: block; }
+    .error-msg {
+      display: none; margin-top: 1rem; padding: 1.25rem 1.5rem;
+      background: rgba(255,60,60,0.08); border: 1px solid rgba(255,60,60,0.3);
+      border-radius: 0.75rem; color: #ff6b6b; font-size: 0.9rem; text-align: center;
+    }
+    .error-msg.visible { display: block; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2.5rem 2rem; border-top: 1px solid rgba(255,255,255,0.06);
+      background: var(--black);
+    }
+    .footer-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo { font-family: 'Space Mono', monospace; font-size: 0.8rem; letter-spacing: 0.15em; color: var(--zinc-400); }
+    .footer-copy { font-size: 0.75rem; color: var(--zinc-400); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.75rem; color: var(--zinc-400); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .services-grid { grid-template-columns: 1fr; }
+      .works-grid { grid-template-columns: repeat(2, 1fr); }
+      .works-grid .work-card { grid-column: span 1 !important; aspect-ratio: 4/3 !important; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .project-tags { display: none; }
+    }
+    @media (max-width: 580px) {
+      section { padding: 5rem 1.25rem; }
+      .works-grid { grid-template-columns: 1fr; }
+      .works-grid .work-card { grid-column: span 1 !important; aspect-ratio: 4/3 !important; }
+      .work-overlay { opacity: 1; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .project-header { flex-wrap: wrap; }
+    }
+  </style>
 </head>
-    <body class="bg-midnight text-white font-body antialiased">
+<body>
 
-    <!-- Header: Sauberer Text für die Navigation -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-midnight/80 backdrop-blur-md border-b border-white/5">
-        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="#" class="font-display text-2xl font-semibold tracking-wide bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                ENDRU LABS
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">ENDRU<span>_</span>LABS</a>
+      <ul class="nav-links">
+        <li><a href="#works" data-de="Works" data-en="Works">Works</a></li>
+        <li><a href="#services" data-de="Services" data-en="Services">Services</a></li>
+        <li><a href="#about" data-de="Über uns" data-en="About">Über uns</a></li>
+        <li><a href="#contact" data-de="Kontakt" data-en="Contact">Kontakt</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button id="btn-de" onclick="switchLang('de')" class="active">DE</button>
+          <button id="btn-en" onclick="switchLang('en')">EN</button>
+        </div>
+        <button class="hamburger" id="hamburger-btn" aria-label="Menü öffnen">&#9776;</button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="#works" onclick="closeMobileMenu()" data-de="Works" data-en="Works">Works</a>
+      <a href="#services" onclick="closeMobileMenu()" data-de="Services" data-en="Services">Services</a>
+      <a href="#about" onclick="closeMobileMenu()" data-de="Über uns" data-en="About">Über uns</a>
+      <a href="#contact" onclick="closeMobileMenu()" data-de="Kontakt" data-en="Contact">Kontakt</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+    <div class="hero-vignette"></div>
+    <div class="hero-inner" style="position:relative;z-index:2;">
+      <div class="hero-eyebrow" data-de="Zürich — Creative Technology Studio" data-en="Zurich — Creative Technology Studio">
+        Zürich — Creative Technology Studio
+      </div>
+      <h1>
+        <span data-de="Immersive<br>Visuals." data-en="Immersive<br>Visuals.">Immersive<br>Visuals.</span><br>
+        <em data-de="Real Engineering." data-en="Real Engineering.">Real Engineering.</em>
+      </h1>
+      <p class="hero-sub" data-de="Von 3D-Projection bis perfektem Set – Technik, Kreativität und mentale Performance in einem Studio." data-en="From 3D projection to the perfect set – technology, creativity and performance in one studio.">
+        Von 3D-Projection bis perfektem Set – Technik, Kreativität und mentale Performance in einem Studio.
+      </p>
+      <div class="hero-cta-group">
+        <a href="#contact" class="btn-primary">
+          <span data-de="Projekt starten" data-en="Start a project">Projekt starten</span>
+        </a>
+        <a href="#works" class="btn-ghost">
+          <span data-de="Works ansehen" data-en="View works">Works ansehen</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-inner">
+      <span class="section-label" data-de="Was wir machen" data-en="What we do">Was wir machen</span>
+      <h2 class="section-title" data-de="Drei Disziplinen.<br>Eine Anlaufstelle." data-en="Three disciplines.<br>One point of contact.">Drei Disziplinen.<br>Eine Anlaufstelle.</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <span class="service-num">01</span>
+          <h3 data-de="Immersive Visual Systems" data-en="Immersive Visual Systems">Immersive Visual Systems</h3>
+          <p data-de="Projection Mapping, Resolume-Steuerung, LED-Content und Spatial Installations. Deine Idee wird zum raumgreifenden visuellen Erlebnis." data-en="Projection mapping, Resolume control, LED content and spatial installations. Your idea becomes an immersive visual experience.">Projection Mapping, Resolume-Steuerung, LED-Content und Spatial Installations. Deine Idee wird zum raumgreifenden visuellen Erlebnis.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-num">02</span>
+          <h3 data-de="Event Engineering" data-en="Event Engineering">Event Engineering</h3>
+          <p data-de="Technische Gesamtplanung, Creative Direction und DJ-Set – von der ersten Idee bis zum Load-In. Alles aus einer Hand, kein Koordinations-Overhead." data-en="Full technical production, creative direction and DJ set – from first idea to load-in. Everything under one roof, no coordination overhead.">Technische Gesamtplanung, Creative Direction und DJ-Set – von der ersten Idee bis zum Load-In. Alles aus einer Hand, kein Koordinations-Overhead.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-num">03</span>
+          <h3 data-de="Visual Consulting" data-en="Visual Consulting">Visual Consulting</h3>
+          <p data-de="Strategische Beratung für maximale Wirkung. Welche Technik für welchen Raum, welches Budget für welchen Impact – ehrlich und auf den Punkt." data-en="Strategic consulting for maximum impact. Which technology for which space, which budget for which impact – honest and to the point.">Strategische Beratung für maximale Wirkung. Welche Technik für welchen Raum, welches Budget für welchen Impact – ehrlich und auf den Punkt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKS -->
+  <section id="works">
+    <div class="section-inner">
+      <span class="section-label" data-de="Ausgewählte Projekte" data-en="Selected projects">Ausgewählte Projekte</span>
+      <h2 class="section-title" data-de="Selected Works" data-en="Selected Works">Selected Works</h2>
+
+      <!-- PROJECT 1: Rhema Underground -->
+      <div class="project-block">
+        <div class="project-header">
+          <span class="project-name" data-de="Rhema25 Underground" data-en="Rhema25 Underground">Rhema25 Underground</span>
+          <span class="project-meta">2025 · Zürich</span>
+          <div class="project-tags">
+            <span class="project-tag">3D Mapping</span>
+            <span class="project-tag">LED Cubes</span>
+            <span class="project-tag">Stage Design</span>
+            <span class="project-tag">DJ</span>
+          </div>
+        </div>
+        <div class="works-grid grid-rhema" id="grid-rhema">
+
+          <div class="work-card">
+            <img src="Rhema25-Underground-8.jpg" alt="Rhema Underground Crowd blau" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">Immersive Lighting</p>
+              <p class="work-title" data-de="Dancefloor · Cyan" data-en="Dancefloor · Cyan">Dancefloor · Cyan</p>
+            </div></div>
+          </div>
+
+          <div class="work-card">
+            <img src="Rhema25-Underground-6.jpg" alt="Rhema Underground Crowd overhead rot" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">Crowd · Overhead</p>
+              <p class="work-title" data-de="Atmosphäre · Rot" data-en="Atmosphere · Red">Atmosphäre · Rot</p>
+            </div></div>
+          </div>
+
+          <div class="work-card">
+            <img src="Rhema25-Underground-7.jpg" alt="LED Cubes rot neon" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">3D Projection Mapping</p>
+              <p class="work-title" data-de="LED Cubes · Neon" data-en="LED Cubes · Neon">LED Cubes · Neon</p>
+            </div></div>
+          </div>
+
+          <div class="work-card">
+            <img src="Rhema25-Underground-3.jpg" alt="Projection Mapping Cube Closeup" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">Projection Mapping</p>
+              <p class="work-title" data-de="Cube · Closeup" data-en="Cube · Closeup">Cube · Closeup</p>
+            </div></div>
+          </div>
+
+          <div class="work-card">
+            <img src="Rhema25-Underground-5.jpg" alt="Rhema Underground Crowd red wide" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">Event Engineering</p>
+              <p class="work-title" data-de="Full Venue · Rot" data-en="Full Venue · Red">Full Venue · Rot</p>
+            </div></div>
+          </div>
+
+          <div class="work-card">
+            <img src="Rhema25-Underground-2.jpg" alt="Stage leer cyan Cubes" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">Stage Design</p>
+              <p class="work-title" data-de="Stage · Pre-Show" data-en="Stage · Pre-Show">Stage · Pre-Show</p>
+            </div></div>
+          </div>
+
+          <div class="work-card">
+            <img src="Rhema25-Underground-4.jpg" alt="Cubes weiss kaltweiß" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">LED Cubes</p>
+              <p class="work-title" data-de="Cubes · Kaltweiss" data-en="Cubes · Cool White">Cubes · Kaltweiss</p>
+            </div></div>
+          </div>
+
+          <div class="work-card">
+            <img src="Rhema25-Underground-1.jpg" alt="Stage leer rot" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">Stage Design</p>
+              <p class="work-title" data-de="Stage · Rot beleuchtet" data-en="Stage · Red lit">Stage · Rot beleuchtet</p>
+            </div></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PROJECT 2: Rheinklang Festival -->
+      <div class="project-block">
+        <div class="project-header">
+          <span class="project-name" data-de="Rheinklang Festival 2025" data-en="Rheinklang Festival 2025">Rheinklang Festival 2025</span>
+          <span class="project-meta">2025 · Altstätten SG</span>
+          <div class="project-tags">
+            <span class="project-tag">LED Screen</span>
+            <span class="project-tag">Visual Operator</span>
+            <span class="project-tag">Outdoor Stage</span>
+          </div>
+        </div>
+        <div class="works-grid grid-rheinklang" id="grid-rheinklang">
+
+          <div class="work-card">
+            <img src="Rheinklang-Festivl-25.jpg" alt="Rheinklang LED Screen Butterfly DJ Set" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">LED Content</p>
+              <p class="work-title" data-de="Mainstage · Butterfly Visual" data-en="Mainstage · Butterfly Visual">Mainstage · Butterfly Visual</p>
+            </div></div>
+          </div>
+
+          <div class="work-card">
+            <img src="Rheinklang-Festival-25-1.jpg" alt="Rheinklang Festival Crowd Truss" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">Event Engineering</p>
+              <p class="work-title" data-de="Festival Crowd" data-en="Festival Crowd">Festival Crowd</p>
+            </div></div>
+          </div>
+
+          <div class="work-card">
+            <img src="Rhema25-Underground-Abend4-11.jpg" alt="DJ am Pult cyan" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">DJ Set</p>
+              <p class="work-title" data-de="Behind the Decks" data-en="Behind the Decks">Behind the Decks</p>
+            </div></div>
+          </div>
+
+          <div class="work-card">
+            <img src="operator.png" alt="Visual Operator Resolume" loading="lazy" style="object-position: center top;">
+            <div class="work-overlay"><div>
+              <p class="work-label">Visual Operator</p>
+              <p class="work-title" data-de="Resolume · Live Control" data-en="Resolume · Live Control">Resolume · Live Control</p>
+            </div></div>
+          </div>
+
+          <div class="work-card">
+            <img src="dj.jpg" alt="DJ Set Stage" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">DJ</p>
+              <p class="work-title" data-de="Peak Time Set" data-en="Peak Time Set">Peak Time Set</p>
+            </div></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PROJECT 3: Other Works -->
+      <div class="project-block">
+        <div class="project-header">
+          <span class="project-name" data-de="Weitere Projekte" data-en="Other Projects">Weitere Projekte</span>
+          <span class="project-meta">Zürich & beyond</span>
+          <div class="project-tags">
+            <span class="project-tag">Projection Mapping</span>
+            <span class="project-tag">Stage Design</span>
+            <span class="project-tag">Event Consulting</span>
+          </div>
+        </div>
+        <div class="works-grid grid-other" id="grid-other">
+
+          <div class="work-card">
+            <img src="3d-mapping.jpg" alt="3D Projection Mapping" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">3D Mapping</p>
+              <p class="work-title" data-de="Projection Mapping Event" data-en="Projection Mapping Event">Projection Mapping Event</p>
+            </div></div>
+          </div>
+
+          <div class="work-card">
+            <img src="stagedesign.jpg" alt="Stage Design Consulting" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">Stage Design</p>
+              <p class="work-title" data-de="Stagedesign & Consulting" data-en="Stage Design & Consulting">Stagedesign & Consulting</p>
+            </div></div>
+          </div>
+
+          <div class="work-card">
+            <img src="dj.jpg" alt="DJ Set" loading="lazy">
+            <div class="work-overlay"><div>
+              <p class="work-label">Audio</p>
+              <p class="work-title" data-de="DJ · Warm-Up bis Peak" data-en="DJ · Warm-Up to Peak">DJ · Warm-Up bis Peak</p>
+            </div></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div>
+          <span class="section-label" data-de="Über Endru Labs" data-en="About Endru Labs">Über Endru Labs</span>
+          <h2 class="section-title" data-de="Technik trifft<br>Kreativität." data-en="Technology meets<br>creativity.">Technik trifft<br>Kreativität.</h2>
+          <div class="about-text">
+            <p data-de="Endri Dibra gründete Endru Labs als Creative Technology Studio in Zürich. Mit 8+ Jahren Background in Event-Technologie, Projection Mapping und kreativer Produktion entsteht hier der seltene Mix: jemand, der sowohl den technischen Stack als auch die künstlerische Vision versteht." data-en="Endri Dibra founded Endru Labs as a Creative Technology Studio in Zurich. With 8+ years of background in event technology, projection mapping and creative production, a rare mix emerges: someone who understands both the technical stack and the artistic vision.">
+              Endri Dibra gründete Endru Labs als Creative Technology Studio in Zürich. Mit 8+ Jahren Background in Event-Technologie, Projection Mapping und kreativer Produktion entsteht hier der seltene Mix: jemand, der sowohl den technischen Stack als auch die künstlerische Vision versteht.
+            </p>
+            <p data-de="Statt fünf Spezialisten zu koordinieren, hast du einen Partner, der Technik, Flow und mentale Performance kennt. Projekte für Clubs, internationale Festivals und Schweizer Brands." data-en="Instead of coordinating five specialists, you have one partner who knows technology, flow and mental performance. Projects for clubs, international festivals and Swiss brands.">
+              Statt fünf Spezialisten zu koordinieren, hast du einen Partner, der Technik, Flow und mentale Performance kennt. Projekte für Clubs, internationale Festivals und Schweizer Brands.
+            </p>
+          </div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-num">8<span>+</span></div>
+            <div class="stat-label" data-de="Jahre Erfahrung" data-en="Years experience">Jahre Erfahrung</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">40<span>+</span></div>
+            <div class="stat-label" data-de="Projekte" data-en="Projects">Projekte</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">3</div>
+            <div class="stat-label" data-de="Kernservices" data-en="Core services">Kernservices</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">1</div>
+            <div class="stat-label" data-de="Ansprechpartner" data-en="Point of contact">Ansprechpartner</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <span class="section-label" data-de="Kontakt" data-en="Contact">Kontakt</span>
+          <h2 data-de="Dein nächstes Projekt beginnt hier." data-en="Your next project starts here.">Dein nächstes Projekt beginnt hier.</h2>
+          <p data-de="Du hast eine konkrete Idee oder brauchst erst einen Denk-Anstoss? Schreib direkt oder buch einen 15-Min-Call." data-en="You have a concrete idea or just need some inspiration? Write directly or book a 15-min call.">
+            Du hast eine konkrete Idee oder brauchst erst einen Denk-Anstoss? Schreib direkt oder buch einen 15-Min-Call.
+          </p>
+          <div class="contact-links">
+            <a href="mailto:info@endrulabs.ch" class="contact-link">
+              <span class="contact-link-icon">✉️</span>
+              info@endrulabs.ch
             </a>
-            <nav class="hidden md:flex items-center gap-8 text-sm text-gray-400 tracking-wide">
-                <a href="#services" class="hover:text-white transition-colors">Services</a>
-                <a href="#about" class="hover:text-white transition-colors">About</a>
-                <a href="#kontakt" class="hover:text-white transition-colors">Kontakt</a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Hero 3D -->
-    <section id="hero-3d" class="h-screen relative">
-        <div class="vignette"></div>
-        <div class="grain"></div>
-        <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
-
-        <div class="relative z-10 flex items-center justify-center h-full px-6 pointer-events-none">
-            <div class="text-center max-w-3xl pointer-events-auto">
-                <h1 class="font-display text-6xl md:text-8xl font-semibold tracking-tight mb-6 drop-shadow-2xl leading-none">
-                    Events. Visuals. Energie.
-                </h1>
-                <p class="text-lg md:text-xl text-gray-300 leading-relaxed mb-10 max-w-2xl mx-auto drop-shadow-lg font-light">
-                    Dein Schweizer Taschenmesser für unvergessliche Erlebnisse – von 3D-Projection bis perfektem Set.
-                </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href="#kontakt" class="bg-white text-gray-900 font-medium px-8 py-4 rounded-full hover:bg-gray-200 transition-colors shadow-lg tracking-wide">
-                        Projekte planen
-                    </a>
-                    <a href="https://wa.me/DEINENUMMER" target="_blank" class="flex items-center gap-2 text-gray-300 hover:text-white transition-colors border border-white/20 px-8 py-4 rounded-full hover:border-white/40 backdrop-blur-sm tracking-wide">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.6 6.3A7.85 7.85 0 0 0 12 4a7.9 7.9 0 0 0-6.8 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.8 1h.01a7.9 7.9 0 0 0 5.59-13.6ZM12 18.5a6.55 6.55 0 0 1-3.34-.92l-.24-.14-2.49.65.66-2.43-.16-.25A6.56 6.56 0 1 1 12 18.5Zm3.6-4.9c-.2-.1-1.17-.58-1.35-.64-.18-.07-.31-.1-.44.1s-.5.63-.62.77c-.11.13-.23.14-.43.05a5.4 5.4 0 0 1-1.6-.99 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.09-.4.09-.09.2-.23.3-.34.1-.12.13-.2.2-.33.06-.13.03-.25-.02-.35l-.6-1.45c-.16-.38-.32-.33-.44-.33h-.37a.72.72 0 0 0-.52.24 2.17 2.17 0 0 0-.68 1.62 3.78 3.78 0 0 0 .79 2c.1.13 1.37 2.1 3.32 2.94.46.2.82.32 1.1.4.47.16.89.13 1.22.08.37-.05 1.16-.47 1.32-.93.16-.46.16-.85.11-.93-.05-.08-.18-.13-.38-.23Z"/></svg>
-                        WhatsApp
-                    </a>
-                </div>
-                <div class="mt-12 flex items-center justify-center gap-2 text-xs text-cyan-400/50 font-mono">
-                    <span class="w-2 h-2 bg-cyan-400 rounded-full animate-ping"></span>
-                    <span>Drag to orbit &bull; Scroll to zoom</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Bento Grid -->
-    <section id="services" class="max-w-6xl mx-auto px-6 py-24">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:h-[600px]">
-            
-            <!-- Box 1: 3D Mapping (Dein echtes Bild) -->
-            <div class="relative rounded-3xl overflow-hidden group border border-white/5 md:row-span-2">
-                <img src="3d-mapping.jpg" alt="3D Mapping Event" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                <div class="absolute bottom-0 left-0 p-8">
-                    <span class="text-cyan-400 font-mono text-sm mb-2 block">01 / Visuals</span>
-                    <h3 class="font-display text-3xl md:text-4xl font-semibold mb-2">3D Mapping & Resolume</h3>
-                    <p class="text-gray-300 max-w-sm font-light">Raumgreifende 3D-Projectionen und präzise Resolume-Steuerung. Deine Idee wird zum visuellen Erlebnis.</p>
-                </div>
-            </div>
-
-            <!-- Box 2: Event Consultant (Dein echtes Bild) -->
-            <div class="relative rounded-3xl overflow-hidden group border border-white/5 min-h-[250px]">
-                <img src="stagedesing.jpg" alt="Stagedesign und Beratung" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
-                <div class="absolute bottom-0 left-0 right-0 p-8">
-                    <span class="text-blue-400 font-mono text-sm tracking-widest">02 / Consulting</span>
-                    <h3 class="font-display text-3xl font-semibold mb-2">Event Consultant</h3>
-                    <p class="text-gray-300 font-light">Von der Idee bis zum Load-In. Technik und Logistik aus einer Hand.</p>
-                </div>
-            </div>
-
-            <!-- Box 3: DJ (Dein echtes Bild) -->
-            <div class="relative rounded-3xl overflow-hidden group border border-white/5 min-h-[250px]">
-                <img src="dj.jpg" alt="DJ Set" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
-                <div class="absolute bottom-0 left-0 right-0 p-8">
-                    <span class="text-purple-400 font-mono text-sm tracking-widest">03 / Audio</span>
-                    <h3 class="font-display text-3xl font-semibold mb-2">DJ</h3>
-                    <p class="text-gray-300 font-light">Soundtrack für jeden Moment – Warm-up bis Peak-Time.</p>
-                </div>
-            </div>
-
+            <!-- ⚠️ Nummer eintragen: wa.me/41XXXXXXXXX → echte Nummer ohne + -->
+            <a href="https://wa.me/41XXXXXXXXX" target="_blank" rel="noopener" class="contact-link">
+              <span class="contact-link-icon">💬</span>
+              WhatsApp
+            </a>
+            <a href="https://cal.com/endrulabs" target="_blank" rel="noopener" class="contact-link">
+              <span class="contact-link-icon">📅</span>
+              <span data-de="15 Min. Discovery Call buchen" data-en="Book a 15-min discovery call">15 Min. Discovery Call buchen</span>
+            </a>
+          </div>
         </div>
 
-        <!-- Box 4: Keto + LOGO -->
-        <div class="mt-4 rounded-3xl overflow-hidden group border border-white/5 bg-gradient-to-r from-white/5 via-white/5 to-emerald-900/20 p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 backdrop-blur-sm">
-            
-            <div class="flex-1">
-                <span class="text-emerald-400 font-mono text-sm mb-2 block tracking-widest">04 / Lifestyle & Performance</span>
-                <h3 class="font-display text-3xl md:text-4xl font-semibold mb-2">Keto Expert</h3>
-                <p class="text-gray-400 max-w-xl font-light">Klarer Kopf unter Druck. Keto als Fuel für Performer und Macher – fokussiert bleiben, auch im Stress.</p>
-            </div>
-            
-            <!-- Logo rechts in der Box -->
-            <div class="flex-shrink-0 flex flex-col items-end gap-4">
-                <!-- mix-blend-screen zaubert den schwarzen Hintergrund des PNGs weg -->
-                <img src="logo.png" alt="Endru Labs" class="h-24 md:h-32 w-auto object-contain mix-blend-screen drop-shadow-2xl transition-transform duration-500 group-hover:scale-105">
-                <a href="#kontakt" class="text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/10 px-6 py-3 rounded-full transition-colors whitespace-nowrap font-medium tracking-wide">
-                    Mehr erfahren
-                </a>
-            </div>
+        <div>
+          <form id="contact-form" action="https://formsubmit.co/info@endrulabs.ch" method="POST">
+            <input type="hidden" name="_subject" value="Neue Anfrage – Endru Labs">
+            <input type="hidden" name="_next" value="https://endrulabs.ch">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
 
+            <input
+              type="text" name="name" required
+              placeholder="Name"
+              data-placeholder-de="Name" data-placeholder-en="Name"
+              class="form-field"
+            >
+            <input
+              type="email" name="email" required
+              placeholder="E-Mail"
+              data-placeholder-de="E-Mail" data-placeholder-en="Email"
+              class="form-field"
+            >
+            <textarea
+              name="message" rows="5" required
+              placeholder="Dein Projekt – was planst du?"
+              data-placeholder-de="Dein Projekt – was planst du?" data-placeholder-en="Your project – what are you planning?"
+              class="form-field"
+            ></textarea>
+            <select name="budget" class="form-field" style="appearance:none; cursor:pointer;">
+              <option value="" disabled selected data-de="Budget-Range (optional)" data-en="Budget range (optional)">Budget-Range (optional)</option>
+              <option value="<2000">&#60; 2'000 CHF</option>
+              <option value="2000-5000">2'000 – 5'000 CHF</option>
+              <option value=">5000">&#62; 5'000 CHF</option>
+            </select>
+            <button type="submit" class="btn-submit" id="submit-btn">
+              <span data-de="Anfrage senden" data-en="Send request">Anfrage senden</span>
+            </button>
+          </form>
+          <div class="success-msg" id="success-msg">
+            ✅ <span data-de="Anfrage gesendet – wir melden uns innerhalb von 24 Stunden." data-en="Request sent – we'll be in touch within 24 hours.">Anfrage gesendet – wir melden uns innerhalb von 24 Stunden.</span>
+          </div>
+          <div class="error-msg" id="error-msg">
+            ⚠️ <span data-de="Etwas lief schief – schreib uns direkt an info@endrulabs.ch" data-en="Something went wrong – email us directly at info@endrulabs.ch">Etwas lief schief – schreib uns direkt an info@endrulabs.ch</span>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Why Me -->
-    <section id="about" class="max-w-4xl mx-auto px-6 pb-32 text-center">
-        <div class="w-12 h-px bg-white/20 mx-auto mb-12"></div>
-        <h2 class="font-display text-4xl md:text-5xl font-light italic leading-snug text-gray-200">
-            Statt fünf verschiedene Spezialisten zu koordinieren, hast du einen Partner, der Technik, Flow und mentale Performance versteht.
-        </h2>
-    </section>
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-logo">ENDRU_LABS</span>
+      <span class="footer-copy">© <span id="year"></span> Endru Labs · Zürich, Schweiz</span>
+      <div class="footer-links">
+        <a href="#" data-de="Impressum" data-en="Imprint">Impressum</a>
+        <a href="#" data-de="Datenschutz" data-en="Privacy">Datenschutz</a>
+      </div>
+    </div>
+  </footer>
 
-    <!-- Footer -->
-    <footer id="kontakt" class="border-t border-white/5 bg-black/30 backdrop-blur-sm">
-        <div class="max-w-6xl mx-auto px-6 py-20">
-            <div class="grid md:grid-cols-2 gap-16">
-                <div>
-                    <h3 class="font-display text-3xl font-semibold mb-6">Projekt anfragen</h3>
-                    <form class="space-y-4" action="#" method="POST">
-                        <input type="text" placeholder="Name" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors backdrop-blur-sm">
-                        <input type="email" placeholder="E-Mail" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors backdrop-blur-sm">
-                        <textarea rows="4" placeholder="Deine Projekt-Idee..." required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors resize-none backdrop-blur-sm"></textarea>
-                        <select class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-500 focus:outline-none focus:border-cyan-500/50 transition-colors backdrop-blur-sm">
-                            <option value="" disabled selected>Budget-Range (optional)</option>
-                            <option value="1">< 2'000 CHF</option>
-                            <option value="2">2'000 - 5'000 CHF</option>
-                            <option value="3">> 5'000 CHF</option>
-                        </select>
-                        <button type="submit" class="w-full bg-white text-gray-900 font-medium py-4 rounded-xl hover:bg-gray-200 transition-colors tracking-wide">
-                            Anfrage senden
-                        </button>
-                    </form>
-                </div>
+  <script>
+    // ── Dynamisches Jahr ──
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-                <div class="flex flex-col justify-between">
-                    <div>
-                        <p class="text-gray-400 text-lg leading-relaxed mb-8 font-light">Du hast eine konkrete Idee oder brauchst erstmal einen Denk-Anstoss? Lass uns einfach reden.</p>
-                        <div class="space-y-4">
-                            <a href="mailto:info@endrulabs.ch" class="flex items-center gap-3 text-gray-300 hover:text-white transition-colors">
-                                <span class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center backdrop-blur-sm">✉️</span>
-                                info@endrulabs.ch
-                            </a>
-                            <a href="https://wa.me/DEINENUMMER" target="_blank" class="flex items-center gap-3 text-gray-300 hover:text-white transition-colors">
-                                <span class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center backdrop-blur-sm">💬</span>
-                                WhatsApp
-                            </a>
-                            <a href="#" class="flex items-center gap-3 text-gray-300 hover:text-white transition-colors">
-                                <span class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center backdrop-blur-sm">📅</span>
-                                15 Min. Discovery Call
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between text-xs text-gray-600 gap-4">
-                        <p>&copy; 2024 Endru Labs</p>
-                        <div class="flex gap-4">
-                            <a href="#" class="hover:text-gray-400">Impressum</a>
-                            <a href="#" class="hover:text-gray-400">Datenschutz</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    // ── Hero Canvas: Floating Cubes ──
+    (function() {
+      const canvas = document.getElementById('hero-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H;
+      function resize() {
+        W = canvas.width = canvas.parentElement.offsetWidth;
+        H = canvas.height = canvas.parentElement.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
 
-    <!-- 3D Script -->
-    <script type="module">
-        import * as THREE from 'three';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-        import { Reflector } from 'three/addons/objects/Reflector.js';
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-        const heroContainer = document.getElementById('hero-3d');
+      function project(x, y, z, cx, cy) {
+        const fov = 380, scale = fov / (fov + z);
+        return { x: cx + x * scale, y: cy + y * scale };
+      }
 
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x020812); 
-        scene.fog = new THREE.FogExp2(0x020812, 0.055);
+      function drawCube(cx, cy, size, rx, ry, alpha) {
+        const s = size;
+        const raw = [[-s,-s,-s],[s,-s,-s],[s,s,-s],[-s,s,-s],[-s,-s,s],[s,-s,s],[s,s,s],[-s,s,s]];
+        const verts = raw.map(([x,y,z]) => {
+          let nx = x*Math.cos(ry) - z*Math.sin(ry);
+          let nz = x*Math.sin(ry) + z*Math.cos(ry);
+          let ny = y*Math.cos(rx) - nz*Math.sin(rx);
+          nz = y*Math.sin(rx) + nz*Math.cos(rx);
+          return [nx, ny, nz];
+        });
+        const pts = verts.map(([x,y,z]) => project(x, y, z, cx, cy));
+        const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+        ctx.save();
+        ctx.shadowColor = 'rgba(0,210,255,0.55)';
+        ctx.shadowBlur = 12;
+        ctx.strokeStyle = `rgba(0,225,255,${alpha})`;
+        ctx.lineWidth = 1.3;
+        edges.forEach(([a,b]) => {
+          ctx.beginPath();
+          ctx.moveTo(pts[a].x, pts[a].y);
+          ctx.lineTo(pts[b].x, pts[b].y);
+          ctx.stroke();
+        });
+        ctx.fillStyle = `rgba(0,180,255,${alpha * 0.03})`;
+        ctx.beginPath();
+        [0,1,2,3].forEach((i,k) => k===0 ? ctx.moveTo(pts[i].x,pts[i].y) : ctx.lineTo(pts[i].x,pts[i].y));
+        ctx.closePath(); ctx.fill();
+        ctx.restore();
+      }
 
-        const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.1, 100);
-        camera.position.set(3.6, 2.9, 4.8);
+      const cubes = [
+        { bx:0.18, by:0.42, size:55, sX:0.38, sY:0.52, phase:0,   fAmp:18, fSpd:0.55 },
+        { bx:0.50, by:0.38, size:70, sX:0.55, sY:0.38, phase:1.8, fAmp:12, fSpd:0.70 },
+        { bx:0.82, by:0.45, size:48, sX:0.30, sY:0.62, phase:3.4, fAmp:20, fSpd:0.48 },
+        { bx:0.32, by:0.72, size:28, sX:0.45, sY:0.35, phase:5.1, fAmp:10, fSpd:0.90 },
+        { bx:0.70, by:0.68, size:33, sX:0.60, sY:0.48, phase:2.3, fAmp:14, fSpd:0.62 },
+      ];
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(innerWidth, innerHeight);
-        renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.05;
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        renderer.outputColorSpace = THREE.SRGBColorSpace;
-        
-        heroContainer.prepend(renderer.domElement);
+      const particles = Array.from({length:55}, () => ({
+        x: Math.random(), y: Math.random(),
+        r: Math.random()*1.3+0.3, spd: Math.random()*0.00014+0.00004,
+        phase: Math.random()*Math.PI*2, a: Math.random()*0.3+0.07
+      }));
 
-        const reducedMotion = matchMedia('(prefers-reduced-motion:reduce)').matches;
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.04;
-        controls.target.set(0, 1.1, 0);
-        controls.minDistance = 2.5;
-        controls.maxDistance = 12;
-        controls.maxPolarAngle = Math.PI * 0.82;
-        controls.autoRotate = !reducedMotion;
-        controls.autoRotateSpeed = 0.22;
-        controls.update();
+      let t = 0;
+      function animate() {
+        requestAnimationFrame(animate);
+        t += 0.008;
+        ctx.fillStyle = '#020b1c';
+        ctx.fillRect(0, 0, W, H);
 
-        const composer = new EffectComposer(renderer);
-        composer.addPass(new RenderPass(scene, camera));
-        const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 1.35, 0.55, 0.62);
-        composer.addPass(bloom);
+        const grd = ctx.createRadialGradient(W*.5,H*.44,0,W*.5,H*.44,W*.52);
+        grd.addColorStop(0,'rgba(0,55,115,0.16)');
+        grd.addColorStop(1,'rgba(0,0,0,0)');
+        ctx.fillStyle = grd; ctx.fillRect(0,0,W,H);
 
-        const floorGeo = new THREE.PlaneGeometry(40, 40);
-        const floor = new Reflector(floorGeo, { clipBias: 0.003, textureWidth: Math.floor(innerWidth * devicePixelRatio * 0.5), textureHeight: Math.floor(innerHeight * devicePixelRatio * 0.5), color: 0x0a0a12 });
-        floor.rotation.x = -Math.PI / 2;
-        scene.add(floor);
+        particles.forEach(p => {
+          p.x -= p.spd; if(p.x < -0.01) p.x = 1.01;
+          const py = p.y + Math.sin(t*0.6+p.phase)*0.007;
+          ctx.beginPath();
+          ctx.arc(p.x*W, py*H, p.r, 0, Math.PI*2);
+          ctx.fillStyle = `rgba(70,195,255,${p.a})`;
+          ctx.fill();
+        });
 
-        const floorTint = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshStandardMaterial({ color: 0x080810, roughness: 0.12, metalness: 0.85, transparent: true, opacity: 0.5 }));
-        floorTint.rotation.x = -Math.PI / 2;
-        floorTint.position.y = 0.002;
-        scene.add(floorTint);
+        [...cubes].forEach(cube => {
+          const cx = cube.bx * W;
+          const cy = cube.by * H + Math.sin(t*cube.fSpd+cube.phase)*cube.fAmp;
+          const rx = t*cube.sX + cube.phase*0.3;
+          const ry = t*cube.sY + cube.phase*0.5;
+          const pulse = 0.52 + Math.sin(t*1.4+cube.phase)*0.22;
+          drawCube(cx, cy, cube.size, rx, ry, pulse);
+        });
 
-        const HR = 0.85, HH = 0.35;
-        const hexBase = new THREE.Mesh(new THREE.CylinderGeometry(HR, HR * 1.06, HH, 6), new THREE.MeshStandardMaterial({ color: 0x080808, roughness: 0.92, metalness: 0.08 }));
-        hexBase.position.y = HH / 2; hexBase.castShadow = true; hexBase.receiveShadow = true; scene.add(hexBase);
+        const hl = ctx.createLinearGradient(0,0,W,0);
+        hl.addColorStop(0,'rgba(0,180,255,0)');
+        hl.addColorStop(.5,'rgba(0,180,255,0.055)');
+        hl.addColorStop(1,'rgba(0,180,255,0)');
+        ctx.fillStyle = hl;
+        ctx.fillRect(0, H*0.748, W, 1.5);
+      }
+      animate();
+    })();
 
-        const hexRing = new THREE.Mesh(new THREE.RingGeometry(HR * 0.52, HR * 0.58, 6), new THREE.MeshBasicMaterial({ color: 0x00ddff, transparent: true, opacity: 0.3, side: THREE.DoubleSide }));
-        hexRing.rotation.x = -Math.PI / 2; hexRing.position.y = HH + 0.002; scene.add(hexRing);
+    // ── Language Switch ──
+    function switchLang(lang) {
+      localStorage.setItem('preferredLang', lang);
+      document.documentElement.lang = lang;
 
-        const topGlow = new THREE.Mesh(new THREE.CircleGeometry(HR * 0.48, 6), new THREE.MeshBasicMaterial({ color: 0x00bbff, transparent: true, opacity: 0.06, side: THREE.DoubleSide }));
-        topGlow.rotation.x = -Math.PI / 2; topGlow.position.y = HH + 0.001; scene.add(topGlow);
+      document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
 
-        const FW = 0.95, FH = 1.05, FD = 0.95, frameBaseY = HH + 0.14;
-        const frameGroup = new THREE.Group(); frameGroup.position.y = frameBaseY; scene.add(frameGroup);
+      document.querySelectorAll('[data-de]').forEach(el => {
+        const val = el.getAttribute('data-' + lang);
+        if (val) el.innerHTML = val;
+      });
+      document.querySelectorAll('[data-placeholder-de]').forEach(el => {
+        const val = el.getAttribute('data-placeholder-' + lang);
+        if (val) el.placeholder = val;
+      });
+    }
 
-        frameGroup.add((() => { const m = new THREE.Mesh(new THREE.BoxGeometry(FW, FH, FD), new THREE.MeshPhysicalMaterial({ color: 0xffffff, transparent: true, opacity: 0.05, roughness: 0.02, metalness: 0.0, transmission: 0.96, thickness: 0.3, ior: 1.45, clearcoat: 1.0, clearcoatRoughness: 0.05, side: THREE.DoubleSide, depthWrite: false })); m.position.y = FH / 2; return m; })());
+    // Init lang (inline to avoid FOUC)
+    switchLang(localStorage.getItem('preferredLang') || 'de');
 
-        function tube(a, b, color, r = 0.013) {
-            const dir = new THREE.Vector3().subVectors(b, a); const len = Math.max(0.001, dir.length());
-            const mesh = new THREE.Mesh(new THREE.CylinderGeometry(r, r, len, 8, 1), new THREE.MeshBasicMaterial({ color }));
-            mesh.position.copy(a).add(b).multiplyScalar(0.5);
-            const up = new THREE.Vector3(0, 1, 0); const d = dir.clone().normalize();
-            Math.abs(d.dot(up)) < 0.9999 ? mesh.quaternion.setFromUnitVectors(up, d) : d.y < 0 ? mesh.rotation.z = Math.PI : 0;
-            return mesh;
+    // ── Mobile Nav ──
+    const hamburger = document.getElementById('hamburger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      hamburger.innerHTML = mobileMenu.classList.contains('open') ? '&#10005;' : '&#9776;';
+    });
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      hamburger.innerHTML = '&#9776;';
+    }
+    // expose globally so onclick="" in HTML can reach it
+    window.closeMobileMenu = closeMobileMenu;
+
+    // ── Works Scroll Animation ──
+    const workCards = document.querySelectorAll('.work-card');
+    const workObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          workObserver.unobserve(entry.target);
         }
+      });
+    }, { threshold: 0.08 });
+    workCards.forEach(c => workObserver.observe(c));
 
-        const hw = FW / 2, hd = FD / 2, CYN = 0x00e5ff, VIO = 0x9933ff, MIX = 0x5577ff;
-        
-        const btm = [
-            [[-hw,0,-hd],[hw,0,-hd]], [[hw,0,-hd],[hw,0,hd]],
-            [[hw,0,hd],[-hw,0,hd]], [[-hw,0,hd],[-hw,0,-hd]]
-        ];
-        const top = [
-            [[-hw,FH,-hd],[hw,FH,-hd]], [[hw,FH,-hd],[hw,FH,hd]],
-            [[hw,FH,hd],[-hw,FH,hd]], [[-hw,FH,hd],[-hw,FH,-hd]]
-        ];
-        const vert = [
-            [[-hw,0,-hd],[-hw,FH,-hd]], [[hw,0,-hd],[hw,FH,-hd]],
-            [[hw,0,hd],[hw,FH,hd]], [[-hw,0,hd],[-hw,FH,hd]]
-        ];
-        
-        btm.forEach(e => frameGroup.add(tube(new THREE.Vector3(...e[0]), new THREE.Vector3(...e[1]), CYN)));
-        top.forEach(e => frameGroup.add(tube(new THREE.Vector3(...e[0]), new THREE.Vector3(...e[1]), VIO)));
-        vert.forEach(e => frameGroup.add(tube(new THREE.Vector3(...e[0]), new THREE.Vector3(...e[1]), MIX)));
+    // ── Contact Form (AJAX für bessere UX) ──
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const successMsg = document.getElementById('success-msg');
+    const errorMsg = document.getElementById('error-msg');
 
-        const CS = 0.33;
-        const holoMat = new THREE.ShaderMaterial({
-            uniforms: { uTime: { value: 0 } },
-            vertexShader: `varying vec3 vN, vP, vW; void main(){ vN = normalize(normalMatrix * normal); vP = position; vW = (modelMatrix * vec4(position,1.0)).xyz; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
-            fragmentShader: `uniform float uTime; varying vec3 vN, vP, vW; void main(){ vec3 V = normalize(cameraPosition - vW); float fres = pow(1.0 - abs(dot(V, vN)), 3.0); float s1 = sin(vP.y * 35.0 - uTime * 3.0) * .5 + .5; float s2 = sin(vP.y * 90.0 + uTime * 1.8) * .5 + .5; float scan = smoothstep(.3,.7,s1)*.22 + smoothstep(.4,.6,s2)*.08; float hue = fract(fres * .7 + uTime * .12 + vP.y * .45); vec3 prism = .5 + .5 * cos(6.28318*(hue + vec3(0.,.33,.67))); float bl = sin(uTime*.4 + vP.y*2.5)*.5+.5; vec3 base = mix(vec3(0.,.9,1.), vec3(.6,.2,1.), bl); vec3 col = mix(base, prism, .45); col += scan * vec3(.2,.7,1.); col += fres * base * 3.8; float a = .12 + fres * .72 + scan * .15; gl_FragColor = vec4(col, a); }`,
-            transparent: true, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>⏳</span>';
+
+      const data = new FormData(form);
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
         });
-        const holoCube = new THREE.Mesh(new THREE.BoxGeometry(CS, CS, CS, 2, 2, 2), holoMat);
-        holoCube.position.y = FH / 2; frameGroup.add(holoCube);
-
-        const wireInner = new THREE.Mesh(new THREE.BoxGeometry(CS * .72, CS * .72, CS * .72), new THREE.MeshBasicMaterial({ color: 0x00ccff, wireframe: true, transparent: true, opacity: .18 }));
-        holoCube.add(wireInner);
-        const wireInner2 = new THREE.Mesh(new THREE.BoxGeometry(CS * .5, CS * .5, CS * .5), new THREE.MeshBasicMaterial({ color: 0xaa44ff, wireframe: true, transparent: true, opacity: .12 }));
-        holoCube.add(wireInner2);
-
-        const beam = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.14, FH + 0.25, 16, 1, true), new THREE.MeshBasicMaterial({ color: 0x00ccff, transparent: true, opacity: 0.03, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending }));
-        beam.position.y = HH + (FH + 0.25) / 2; scene.add(beam);
-
-        const causticMat = new THREE.ShaderMaterial({
-            uniforms: { uTime: { value: 0 } },
-            vertexShader: `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
-            fragmentShader: `uniform float uTime; varying vec2 vUv; void main(){ vec2 uv = vUv - .5; float d = length(uv); float r1 = sin(d*18.-uTime*1.6)*.5+.5; float r2 = sin(d*30.+uTime*2.2)*.5+.5; float ring = (r1*.7+r2*.3)*smoothstep(.5,.12,d); float a = atan(uv.y,uv.x); vec3 c1=vec3(0.,.9,1.), c2=vec3(.6,.15,1.), c3=vec3(1.,.12,.4); vec3 col = mix(c1,c2,sin(a*3.+uTime)*.5+.5); col = mix(col,c3,sin(a*5.-uTime*1.3)*.5+.5); float alpha = ring * .22 * smoothstep(.5,.03,d); gl_FragColor = vec4(col*1.6, alpha); }`,
-            transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide
-        });
-        const caustic = new THREE.Mesh(new THREE.PlaneGeometry(2.8, 2.8), causticMat);
-        caustic.rotation.x = -Math.PI / 2; caustic.position.y = 0.004; scene.add(caustic);
-
-        const wallMat = new THREE.MeshStandardMaterial({ color: 0x070709, roughness: 0.95, metalness: 0.05 });
-        [[24,9,.3,0,4.5,-10],[.3,9,24,-12,4.5,0],[.3,9,24,12,4.5,0]].forEach(([w,h,d,x,y,z])=>{ const m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), wallMat); m.position.set(x,y,z); m.receiveShadow = true; scene.add(m); });
-
-        [[-3.2,-5.5,0x4400ff],[3.8,-6.5,0x0066ff],[-5.0,-3.5,0x8800cc],[5.5,-4.0,0x0044aa]].forEach(([x,z,c])=>{ const p = new THREE.Mesh(new THREE.BoxGeometry(.45,1.0,.45), new THREE.MeshStandardMaterial({ color: 0x0a0a0c, roughness: .88, metalness: .1 })); p.position.set(x,.5,z); p.castShadow=true; scene.add(p); const l = new THREE.PointLight(c, .35, 3.5); l.position.set(x,1.35,z); scene.add(l); });
-
-        const PC = 280; const pPos = new Float32Array(PC*3), pSz = new Float32Array(PC), pCol = new Float32Array(PC*3);
-        for(let i=0;i<PC;i++){ const near = Math.random()<.6, ang = Math.random()*Math.PI*2; const rad = near ? Math.random()*2+.4 : Math.random()*8+2; pPos[i*3]=Math.cos(ang)*rad; pPos[i*3+1]=Math.random()*5+.3; pPos[i*3+2]=Math.sin(ang)*rad; pSz[i]=Math.random()*2.5+.5; const t=Math.random(); pCol[i*3]=t*.6; pCol[i*3+1]=(1-t)*.9; pCol[i*3+2]=1; }
-        const pGeo = new THREE.BufferGeometry(); pGeo.setAttribute('position', new THREE.BufferAttribute(pPos,3)); pGeo.setAttribute('aSize', new THREE.BufferAttribute(pSz,1)); pGeo.setAttribute('aColor', new THREE.BufferAttribute(pCol,3));
-        const pMat = new THREE.ShaderMaterial({
-            uniforms: { uTime:{value:0}, uPR:{value:Math.min(devicePixelRatio,2)} },
-            vertexShader:`attribute float aSize; attribute vec3 aColor; varying vec3 vC; uniform float uTime,uPR; void main(){ vC=aColor; vec3 p=position; p.y+=sin(uTime*.4+position.x*1.8)*.08; p.x+=cos(uTime*.25+position.z*1.3)*.04; vec4 mv=modelViewMatrix*vec4(p,1.); gl_PointSize=aSize*uPR*(80./-mv.z); gl_Position=projectionMatrix*mv; }`,
-            fragmentShader:`varying vec3 vC; void main(){ float d=length(gl_PointCoord-.5); if(d>.5)discard; gl_FragColor=vec4(vC, smoothstep(.5,.04,d)*.32); }`,
-            transparent:true, depthWrite:false, blending:THREE.AdditiveBlending
-        });
-        scene.add(new THREE.Points(pGeo, pMat));
-
-        scene.add(new THREE.AmbientLight(0x0a0a1a, 0.35));
-        const spot = new THREE.SpotLight(0xddddef, 3); spot.position.set(0, 7, 2); spot.angle = Math.PI / 7; spot.penumbra = 0.85; spot.decay = 2; spot.distance = 15; spot.castShadow = true; spot.shadow.mapSize.set(1024, 1024); spot.target.position.set(0, .5, 0); scene.add(spot); scene.add(spot.target);
-        const cyanPL = new THREE.PointLight(0x00e5ff, 2.5, 4.5); cyanPL.position.set(0, frameBaseY + FH * .3, 0); scene.add(cyanPL);
-        const vioPL = new THREE.PointLight(0x9933ff, 2.0, 4.5); vioPL.position.set(0, frameBaseY + FH * .7, 0); scene.add(vioPL);
-        scene.add(new THREE.PointLight(0x3300cc, .8, 10).translateX(-3).translateY(3).translateZ(-4));
-
-        const clock = new THREE.Clock();
-        (function animate(){
-            requestAnimationFrame(animate);
-            const t = clock.getElapsedTime();
-            frameGroup.position.y = frameBaseY + Math.sin(t * 1.2) * 0.025;
-            holoCube.rotation.y = t * 0.45; holoCube.rotation.x = Math.sin(t * 0.28) * 0.18; holoCube.rotation.z = Math.cos(t * 0.35) * 0.1;
-            wireInner.rotation.y = -t * 0.7; wireInner.rotation.x = t * 0.3; wireInner2.rotation.y = t * 1.1; wireInner2.rotation.z = -t * 0.5;
-            holoMat.uniforms.uTime.value = t; causticMat.uniforms.uTime.value = t; pMat.uniforms.uTime.value = t;
-            hexRing.material.opacity = .22 + Math.sin(t * 2) * .1; topGlow.material.opacity = .04 + Math.sin(t * 1.8) * .02;
-            cyanPL.intensity = 2.5 + Math.sin(t * 1.8) * .6; vioPL.intensity = 2.0 + Math.cos(t * 2.2) * .5; beam.material.opacity = .025 + Math.sin(t * 1.5) * .012;
-            controls.update();
-            composer.render();
-        })();
-
-        addEventListener('resize', ()=>{ camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); composer.setSize(innerWidth, innerHeight); });
-    </script>
+        if (res.ok || res.status === 200 || res.redirected) {
+          form.style.display = 'none';
+          successMsg.classList.add('visible');
+        } else {
+          throw new Error('Formsubmit error');
+        }
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span data-de="Anfrage senden" data-en="Send request">Anfrage senden</span>';
+        errorMsg.style.display = 'block';
+      }
+    });
+  </script>
 </body>
 </html>
